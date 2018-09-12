@@ -35,11 +35,11 @@ def wxteams(HOOKID=None):
 
     try:
         if ('alertId' in a):
-            alertTime = (datetime.fromtimestamp(a.startDate)).strftime('%Y-%m-%d %H:%M:%S')
-            message = 'Resource Name: {resourceName}\nTimestamp: {alertTime}\nStatus: {status}\nInfo: {info}'.format(
-                resourceName=a.resourceName,alertTime=alertTime,status=a.status,info=a.info)
+            # alertTime = (datetime.fromtimestamp(a.startDate)).strftime('%Y-%m-%d %H:%M:%S')
+            # message = 'Resource Name: {resourceName}\nTimestamp: {alertTime}\nStatus: {status}\nInfo: {info}'.format(
+                #resourceName=a.resourceName,alertTime=alertTime,status=a.status,info=a.info)
             payload = {
-                "text": message
+                "text": "this was triggered by vrops"
             }
     except:
         logging.exception("Can't create new payload. Check code and try again.")
