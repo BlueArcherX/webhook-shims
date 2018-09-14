@@ -18,7 +18,7 @@ WXTEAMS = ''
 @app.route("/endpoint/wxteams", methods=['POST'])
 @app.route("/endpoint/wxteams/<HOOKID>", methods=['POST','PUT'])
 @app.route("/endpoint/wxteams/<HOOKID>/<RESOURCEID>", methods=['POST','PUT'])
-@app.route("/endpoint/wxteams/<HOOKID>/test", methods=['POST','PUT'])
+# @app.route("/endpoint/wxteams/<HOOKID>/test", methods=['POST','PUT'])
 def wxteams(HOOKID=None,RESOURCEID=None):
     """
     Send messages to Spark/Webex Teams. If HOOKID is not present, requires WXTEAMS defined as 'https://api.ciscospark.com/v1/webooks/incoming/<HOOKID>
