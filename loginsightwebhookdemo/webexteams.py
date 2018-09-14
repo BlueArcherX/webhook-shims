@@ -44,8 +44,9 @@ def wxteams(HOOKID=None,RESOURCEID=None):
                 alertCriticality=a['criticality']
                 )
             payload = {
-                #"text": message
-                "text": str(a)
+                #swtich these for testing/checking contents of a given alert from vROps
+                "text": message
+                #"text": str(a)
             }
     except:
         logging.exception("Can't create new payload. Check code and try again.")
