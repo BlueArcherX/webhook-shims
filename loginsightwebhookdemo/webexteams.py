@@ -38,7 +38,7 @@ def wxteams(HOOKID=None,RESOURCEID=None):
             alertTime = datetime.fromtimestamp(int(a['startDate'] / 1000.0)).strftime('%Y-%m-%d %H:%M:%S')
             message = 'Resource Name: {resourceName}\nAlert Name: {alertName}\nTimestamp: {alertTime}\nStatus: {alertStatus}\nCriticality: {alertCriticality}'.format(
                 resourceName=a['resourceName'],
-                alertName=a['alertName'],
+                alertName=a['AlertName'],
                 alertTime=alertTime,
                 alertStatus=a['status'],
                 alertCriticality=a['criticality']
