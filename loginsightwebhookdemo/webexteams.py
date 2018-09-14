@@ -36,11 +36,12 @@ def wxteams(HOOKID=None,RESOURCEID=None):
     try:
         if ('alertId' in a):
             alertTime = datetime.fromtimestamp(int(a['startDate'] / 1000.0)).strftime('%Y-%m-%d %H:%M:%S')
-            message = 'Resource Name: {resourceName}\nTimestamp: {alertTime}\nStatus: {status}\nInfo: {info}'.format(
+            message = 'Resource Name: {resourceName}\nAlert Name: {alertName}\nTimestamp: {alertTime}\nStatus: {alertStatus}\nCriticality: {alertCriticality}'.format(
                 resourceName=a['resourceName'],
+                alertName=a['alertName']
                 alertTime=alertTime,
-                status=a['status'],
-                info=a['info']
+                alertStatus=a['status'],
+                alertCriticality=a['criticality']
                 )
             payload = {
                 #"text": message
