@@ -43,7 +43,8 @@ def wxteams(HOOKID=None,RESOURCEID=None):
                 info=a['info']
                 )
             payload = {
-                "text": message
+                #"text": message
+                "text": str(a)
             }
     except:
         logging.exception("Can't create new payload. Check code and try again.")
