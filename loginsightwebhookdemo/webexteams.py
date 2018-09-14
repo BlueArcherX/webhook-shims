@@ -12,14 +12,13 @@ __email__ = "cantrell.jm@gmail.com"
 __version__ = "1.0"
 
 
-# Spark/Webex Teams incoming webhook URL. For more information see these links:
-# https://apphub.webex.com/integrations/incoming-webhooks-cisco-systems
-# https://developer.webex.com/webhooks-explained.html
+# Spark/Webex Teams incoming webhook URL. For more information see https://developer.webex.com/webhooks-explained.html
 WXTEAMS = ''
 
 @app.route("/endpoint/wxteams", methods=['POST'])
 @app.route("/endpoint/wxteams/<HOOKID>", methods=['POST','PUT'])
-def wxteams(HOOKID=None):
+@app.route("/endpoint/wxteams/<HOOKID>/<RESOURCEID>", methods=['POST','PUT'])
+def wxteams(HOOKID=None,RESOURCEID=None):
     """
     Send messages to Spark/Webex Teams. If HOOKID is not present, requires WXTEAMS defined as 'https://api.ciscospark.com/v1/webooks/incoming/<HOOKID>
     """
@@ -35,11 +34,15 @@ def wxteams(HOOKID=None):
 
     try:
         if ('alertId' in a):
-            # alertTime = (datetime.fromtimestamp(a.startDate)).strftime('%Y-%m-%d %H:%M:%S')
-            # message = 'Resource Name: {resourceName}\nTimestamp: {alertTime}\nStatus: {status}\nInfo: {info}'.format(
-                #resourceName=a.resourceName,alertTime=alertTime,status=a.status,info=a.info)
+            alertTime = (datetime.fromtimestamp(a['startDate'])).strftime('%Y-%m-%d %H:%M:%S')
+            message = 'Resource Name: {resourceName}\nTimestamp: {alertTime}\nStatus: {status}\nInfo: {info}'.format(
+                resourceName=a['resourceName'],
+                alertTime=alertTime,
+                status=a['status'],
+                info=a['info']
+                )
             payload = {
-                "text": "this was triggered by vrops"
+                "text": message
             }
     except:
         logging.exception("Can't create new payload. Check code and try again.")
