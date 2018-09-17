@@ -45,7 +45,7 @@ def wxteams(HOOKID=None,RESOURCEID=None):
         # so we chose to filter down the alerts to some critical relevant information. This is just a fraction of the fields that are avaiable
         if ('alertId' in a):
             d = datetime.fromtimestamp(int(a['startDate'] / 1000.0)).replace(tzinfo=timezone)
-            alertTime = d.strftime('%Y-%m-%d %H:%M:%S') + timezone
+            alertTime = d.strftime('%Y-%m-%d %H:%M:%S') + str(timezone)
             
             message = 'Resource Name: {resourceName}\nAlert Name: {alertName}\nTimestamp: {alertTime}\nStatus: {alertStatus}\nCriticality: {alertCriticality}'.format(
                 resourceName=a['resourceName'],
