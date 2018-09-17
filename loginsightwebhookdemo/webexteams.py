@@ -14,7 +14,19 @@ __email__ = "bcalvert@gmail.com"
 __version__ = "1.0"
 
 # Due to sites in multiple time zones, our vROps is set to UTC. Adjust this to your local timezone so the alerts post accordingly.
-timezone = pytz.timezone('America/Chicago')
+sourceTimezone = 'Etc/UTC'
+destTimezone = 'America/Chicago'
+
+def convert_datetime_timezone(dt, sourceTimezone, destTimezone):
+    sourceTimezone = pytz.timezone(sourceTimezone)
+    destTimezone = pytz.timezone(destTimezone)
+
+    dt = datetime.datetime.strptime(dt,"%Y-%m-%d %H:%M:%S")
+    dt = sourceTimezone.localize(dt)
+    dt = dt.astimezone(destTimezone)
+    dt = dt.strftime("%Y-%m-%d %H:%M:%S")
+
+    return dt
 
 # Spark/Webex Teams incoming webhook URL. For more information see:
 # https://developer.webex.com/webhooks-explained.html
@@ -44,8 +56,14 @@ def wxteams(HOOKID=None,RESOURCEID=None):
         # Webex Teams does not support message attachments in the same way that MS Teams or Slack do,
         # so we chose to filter down the alerts to some critical relevant information. This is just a fraction of the fields that are avaiable
         if ('alertId' in a):
-            d = datetime.fromtimestamp(int(a['startDate'] / 1000.0)).replace(tzinfo=timezone)
-            alertTime = d.strftime('%Y-%m-%d %H:%M:%S') + str(timezone)
+            #vROps posts alerts in milliseconds since epoch, so we have to convert it to seconds
+            d = datetime.fromtimestamp(int(a['startDate'] / 1000.0))
+            #format the timestamp to something readable
+            alertTime = d.strftime('%Y-%m-%d %H:%M:%S')
+            #convert the time to the destination timezone
+            alertTime = convert_datetime_timezone(alertTime, sourceTimezone, destTimezone)
+            #append the destination timezone for display purposes
+            alertTime = alertTime + ' ' + str(destTimezone)
             
             message = 'Resource Name: {resourceName}\nAlert Name: {alertName}\nTimestamp: {alertTime}\nStatus: {alertStatus}\nCriticality: {alertCriticality}'.format(
                 resourceName=a['resourceName'],
